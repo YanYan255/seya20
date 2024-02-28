@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive AI</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    #container {
+      position: relative;
+      width: 4in; /* Set container width to 4 inches */
+      height: 4in; /* Set container height to 4 inches */
+      margin: 0 auto;
+      padding: 0.5in; /* Add padding */
+      background-image: url('https://i.pinimg.com/originals/ac/29/54/ac2954e41a8c2014e006b84a8d217800.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    #ai-icon {
+      width: auto;
+      height: 2.5in; /* Set AI icon height to 2.5 inches */
+      display: block;
+      animation: moveAndBlink 5s infinite alternate;
+      position: absolute;
+      top: 0.5in; /* Adjust position */
+      left: 0.5in; /* Adjust position */
+      z-index: 1;
+    }
+    @keyframes moveAndBlink {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-0.1in); /* Adjust translateY */
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    .callout {
+      padding: 0.35in; /* Adjust padding */
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      position: absolute;
+      top: 1in; /* Adjust position */
+      left: calc(2in + 0.5in); /* Adjust position */
+      transform: translateY(50%);
+      z-index: 0;
+    }
+    button {
+      margin: 0.1in; /* Adjust margin */
+      padding: 0.1in 0.2in; /* Adjust padding */
+      background-color: #cccccc;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #999999;
+    }
+    .button-column {
+      position: absolute;
+      bottom: 0.2in; /* Adjust position */
+      right: 0.2in; /* Adjust position */
+      z-index: 2; /* Ensure buttons are on top of the callout */
+    }
+    .button-column button {
+      display: block;
+      margin-bottom: 0.1in; /* Adjust margin */
+    }
+  </style>
+</head>
+<body>
+
+<div id="container">
+  <img id="ai-icon" src="https://media4.giphy.com/media/nQASPLzc7zbJpqjZDX/giphy.gif?cid=6c09b952rawtevi9cjdcenh9k5ztjrpkb5z411n7xo2ri785&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s" alt="AI Icon">
+  <div id="response" class="callout">
+    <p id="greeting">Holabels, may kwento akiskis!</p> <!-- Greeting displayed in the callout -->
+  </div>
+  <div class="button-column">
+    <button id="advice-btn">Give Advice</button>
+    <button id="activity-btn">Give Activity</button>
+  </div>
+</div>
+
+<script>
+  var adviceList = [
+    "Embrace failure as a stepping stone to success, Yanker",
+    "Practice gratitude daily, Yanker",
+    "Always be curious and never stop learning, Yanker",
+    "Surround yourself with positive influences, Yanker",
+    "Take care of your physical health, Yanker",
+    "Set clear, achievable goals, Yanker",
+    "Trust your instincts, Yanker",
+    "Prioritize quality over quantity, Yanker",
+    "Invest in meaningful relationships, Yanker",
+    "Learn to say no when necessary, Yanker",
+    "Take calculated risks, Yanker",
+    "Stay humble, but confident, Yanker",
+    "Be adaptable to change, Yanker",
+    "Find time for solitude and reflection, Yanker",
+    "Keep a journal to track your progress, Yanker",
+    "Foster empathy and understanding, Yanker",
+    "Take breaks to recharge, Yanker",
+    "Seek feedback and constructive criticism, Yanker",
+    "Don't compare yourself to others, Yanker",
+    "Practice active listening, Yanker",
+    "Cultivate patience and resilience, Yanker",
+    "Be kind to yourself and others, Yanker",
+    "Set boundaries to protect your time and energy, Yanker",
+    "Celebrate small victories along the way, Yanker",
+    "Stay organized and prioritize tasks, Yanker",
+    "Practice mindfulness and meditation, Yanker",
+    "Don't be afraid to ask for help, Yanker",
+    "Focus on solutions, not problems, Yanker"
+  ];
+
+  var activityList = [
+    "Watch a funny movie or TV show, Yanker",
+    "Take up a hobby you enjoy, like painting or cooking, Yanker",
+    "Go for a bike ride or a hike in nature, Yanker",
+    "Try a new recipe and cook yourself a delicious meal, Yanker",
+    // Add more activities here
+    "Read a book you've been meaning to read, Yanker",
+    "Write in a journal about your thoughts and feelings, Yanker",
+    "Do some yoga or stretching exercises, Yanker",
+    "Visit a museum or art gallery, Yanker",
+    "Listen to your favorite music and dance around the house, Yanker",
+    "Volunteer for a cause you care about, Yanker",
+    "Start a DIY project or home improvement task, Yanker",
+    "Take a long bath or shower to relax, Yanker",
+    "Plan a day trip to explore a nearby town or nature spot, Yanker",
+    "Organize and declutter a room in your home, Yanker",
+    "Start learning a new language or skill online, Yanker",
+    "Plant some flowers or vegetables in your garden, Yanker",
+    "Have a picnic in the park with friends or family, Yanker",
+    "Attend a local community event or festival, Yanker",
+    "Go stargazing on a clear night, Yanker",
+    "Try a new restaurant or café in your area, Yanker",
+    "Create a vision board with your goals and aspirations, Yanker",
+    "Practice deep breathing exercises to reduce stress, Yanker",
+    "Play a board game or card game with loved ones, Yanker",
+    "Write down three things you're grateful for each day, Yanker",
+    "Go for a walk or run outdoors to get some fresh air and exercise, Yanker",
+    "Call or video chat with a friend or family member, Yanker",
+    "Take photos of things that inspire you or bring you joy, Yanker",
+    "Plan a weekend getaway to a nearby destination, Yanker",
+    "Try a new hobby or craft, like knitting or woodworking, Yanker"
+  ];
+
+  var responseDiv = document.getElementById('response');
+  var greetingDiv = document.getElementById('greeting');
+
+  function getRandomItem(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
+  function displayResponse(response) {
+    responseDiv.innerHTML = "<p>" + response + "</p>";
+  }
+
+  function speakText(text) {
+    var speechSynthesis = window.speechSynthesis;
+    var utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  }
+
+  // Greet when mouse hovers over the icon
+  document.getElementById('ai-icon').addEventListener('mouseenter', function() {
+    displayResponse("<strong>Holabels, may kwento akiskis!</strong>");
+    speakText("Holabels, may kwento akiskis!");
+  });
+
+  document.getElementById('advice-btn').addEventListener('click', function() {
+    var advice = getRandomItem(adviceList);
+    displayResponse("<strong>Advice:</strong> " + advice);
+    adviceList.splice(adviceList.indexOf(advice), 1); // Remove advice from list
+    greetingDiv.innerHTML = ""; // Remove greeting
+    speakText(advice); // Speak the advice
+  });
+
+  document.getElementById('activity-btn').addEventListener('click', function() {
+    var activity = getRandomItem(activityList);
+    displayResponse("<strong>Activity:</strong> " + activity);
+    activityList.splice(activityList.indexOf(activity), 1); // Remove activity from list
+    greetingDiv.innerHTML = ""; // Remove greeting
+    speakText(activity); // Speak the activity
+  });
+</script>
+
+</body>
+</html>
+
